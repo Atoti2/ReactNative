@@ -14,13 +14,15 @@
     },
     "ios": {
       "supportsTablet": true,
-      "package": "com.jsm.aora"
+      "package": "com.jsm.aora",
+      "bundleIdentifier": "com.toti2.Aora"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.toti2.Aora"
     },
     "web": {
       "bundler": "metro",
@@ -32,6 +34,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "23feadc5-f99c-4ed6-a593-eb380c1ad462"
+      }
     }
   }
 }

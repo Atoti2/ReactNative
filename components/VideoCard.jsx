@@ -3,7 +3,24 @@ import React, { useState } from 'react'
 import { icons } from '../constants'
 import { TouchableOpacity } from 'react-native'
 import { Video, ResizeMode } from 'expo-av'
-const VideoCard = ({ video: {title, thumbnail, video, creator: {username, avatar}} }) => {
+import { addToBookmark } from '../lib/appwrite'
+import { useGlobalContext } from '../context/GlobalProvider'
+const VideoCard = ({ video: {title, $id, thumbnail, video, creator: {username, avatar}}, showLike }) => { 
+    const { user, setUser, setIsLoggedIn } = useGlobalContext()
+    const [bookmarking, setBookmarking] = useState(false);
+
+    const handleBookmark = async () => {
+      setBookmarking(true);
+      try {
+        await addToBookmark(user.$id, $id);
+        alert("Added to bookmarks!");
+      } catch (error) {
+        alert("Failed to add to bookmarks.");
+      } finally {
+        setBookmarking(false);
+      }
+    };
+    
     const [play, setPlay] = useState(false)
   return (
     <View className="flex-col items-center px-4 mb-14">
@@ -23,6 +40,17 @@ const VideoCard = ({ video: {title, thumbnail, video, creator: {username, avatar
                     <Text className="text-xs text-gray-100 font-pregular" numberOfLines={1}>
                         {username}
                     </Text>
+                    {showLike && (
+                      <TouchableOpacity
+                      onPress={handleBookmark}
+                      disabled={bookmarking}
+                      >
+                          <Text className="text-xs text-secondary font-pbold" numberOfLines={1}>
+                              {bookmarking ? "Adding..." : "Add to bookmark"}
+                          </Text>
+                      </TouchableOpacity>
+                    )}
+                 
                 </View>
             </View>
             <View className="pt-2">
